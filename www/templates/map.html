@@ -1,0 +1,107 @@
+<ion-view>
+    <ion-content id="wrapper">
+        <div id="map"></div>
+    </ion-content>
+    <ion-content id="svg">
+        <svg class="svgLegit" id="svgEl" width="1300" height="800" viewbox="0 0 900 800">
+            <circle id="drone" r="10" cy="528" cx="322" fill="#f33" />
+            <g ng-repeat="path in paths track by $index" create-path xfirst="{{path.xfirst}}" yfirst="{{path.yfirst}}" xsecond="{{path.xsecond}}" ysecond="{{path.ysecond}}" xmon="{{pathId}}">
+            </g>
+            <g ng-repeat="point in points track by $index" point-location xcor="{{point.xcor}}" ycor="{{point.ycor}}"></g>
+
+            <g>
+                <g compile="pathEl"></g>
+            </g>
+            <g ng-show="show != undefined" id="delete">
+                <path d="M750 430, 950 430" stroke-width="5px" stroke="green" fill="transparent" id="person" />
+                <circle cx="" cy="" r="8" fill="red">
+
+                    <!-- Define the motion path animation -->
+                    <animateMotion dur="40s">
+                        <mpath xlink:href="#person" />
+                    </animateMotion>
+
+                </circle>
+                <circle cx="430" cy="950" r="5" fill="red"></circle>
+                
+            </g>
+            <!--<path class="key-anim1" fill="none" stroke-width="5px" stroke="rgba(200,10,10,0.5)" d="M529 380,197 630" /> -->
+
+            <!--<g ng-repeat = "pathId in pathIds track by $index" ng-show="{{show}}" create-motion motionId="{{pathId}}"></g> -->
+            <!-- Define the motion path animation -->
+
+        </svg>
+    </ion-content>
+    <ion-content style="position:absolute;">
+        <!--<div ng-repeat="base in bases track by $index" flight-plan top="{{base.top}}" bottom="{{base.bottom}}" left="{{base.left}}" right="{{base.right}}"></div> -->
+        <div ng-repeat="base in bases track by $index" flight-plan top="{{base.top}}" bottom="{{base.bottom}}" left="{{base.left}}" right="{{base.right}}"></div>
+    </ion-content>
+    <ion-content style="position:absolute;">
+        <img src="img/tower-pic-sm.png" class="greatAbsolute" />
+    </ion-content>
+
+    <ion-content id="baseButton">
+        <button class="button icon-left ion-plus-round button-large button-balanced" ng-click="openModal(1)">New Base</button>
+    </ion-content>
+    <ion-content id="planButton">
+        <button class="button icon-left ion-plus-round button-large button-royal" ng-click="openModal(2)">Create Flight Plan</button>
+    </ion-content>
+    <ion-content id="startButton">
+        <button class="button icon-left ion-paper-airplane button-large button-assertive" ng-click="start()">Start flight plan</button>
+    </ion-content>
+    <ion-content id="nearestButton">
+        <button class="button icon-left ion-location button-large button-calm" ng-click="nearest()">Find nearest location</button>
+    </ion-content>
+    <ion-content id="stopFlightPlan">
+        <button class="button icon-left ion-stop button-large button-dark" ng-click="stop()">Stop flight plan</button>
+    </ion-content>
+    
+</ion-view>
+
+<script id="modal.html" type="text/ng-template">
+    <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-calm">
+            <h1 class="title">New Base</h1>
+            <button class="button button-clear button-assertive" ng-click="closeModal(1)">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+            <div class="list" style="top:40px;">
+                <label class="item item-input">
+                    <span class="input-label ion-ios-location">      Longitude coordinates: </span>
+                    <input ng-model="newBase.top" type="text">
+                </label>
+
+                <label class="item item-input" style="top:60px;">
+                    <span class="input-label ion-ios-location">      Latitude coordinates: </span>
+                    <input ng-model="newBase.left" type="text">
+                </label>
+
+                <button class="button button-full button-assertive" ng-click="createBase(newBase)" style="top: 150px;">Create</button>
+            </div>
+        </ion-content>
+    </ion-modal-view>
+</script>
+
+<script id="modalPoint.html" type="text/ng-template">
+    <ion-modal-view>
+        <ion-header-bar class="bar bar-header bar-energized">
+            <h1 class="title">New Flight plan location point</h1>
+            <button class="button button-clear button-assertive" ng-click="closeModal(2)">Cancel</button>
+        </ion-header-bar>
+        <ion-content class="padding">
+            <div class="list" style="top:40px;">
+                <label class="item item-input">
+                    <span class="input-label ion-ios-location">      Longitude coordinates: </span>
+                    <input ng-model="newLocationPoint.xcor" type="text">
+                </label>
+
+                <label class="item item-input" style="top:60px;">
+                    <span class="input-label ion-ios-location">      Latitude coordinates: </span>
+                    <input ng-model="newLocationPoint.ycor" type="text">
+                </label>
+
+                <button class="button button-full button-assertive" ng-click="createLocationPoint(newLocationPoint)" style="top: 150px;">Create</button>
+            </div>
+        </ion-content>
+    </ion-modal-view>
+</script>
